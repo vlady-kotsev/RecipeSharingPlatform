@@ -12,12 +12,12 @@ namespace RecipeSharingPlatform.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
+            builder.Services.AddScoped<IRecipeService, RecipeService>();
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options =>
             {
@@ -59,6 +59,12 @@ namespace RecipeSharingPlatform.Web
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                db.Database.Migrate();
+            }
 
             app.Run();
         }

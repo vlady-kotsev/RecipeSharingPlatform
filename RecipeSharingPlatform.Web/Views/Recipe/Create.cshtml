@@ -1,8 +1,8 @@
-﻿@* @{
+﻿@{
     ViewData["Title"] = "Create Recipe";
     var today = DateTime.Now.ToString("yyyy-MM-dd");
 }
-
+@model RecipeSharingPlatform.ViewModels.RecipeViewModel
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
     <h2>@ViewData["Title"]</h2>
 </div>
@@ -20,7 +20,8 @@
 
                 <div class="col-sm-6 mb-2">
                     <label asp-for="@Model.CategoryId" class="form-label-add-edit">Select Category</label>
-                    <select asp-for="@Model.CategoryId" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
+                    <select asp-for="@Model.CategoryId" class="form-control" aria-required="true"
+                        asp-items="ViewBag.Categories">
                         <option value="">...</option>
                     </select>
                     <span asp-validation-for="@Model.CategoryId" class="text-danger"></span>
@@ -35,13 +36,15 @@
 
             <div class="mb-2">
                 <label asp-for="@Model.ImageUrl" class="form-label-add-edit">Image URL</label>
-                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="false" placeholder="Enter image URL (optional)" />
+                <input asp-for="@Model.ImageUrl" class="form-control" aria-required="false"
+                    placeholder="Enter image URL (optional)" />
                 <span asp-validation-for="@Model.ImageUrl" class="text-danger"></span>
             </div>
 
             <div class="col-sm-6 mb-2">
                 <label asp-for="@Model.CreatedOn" class="form-label-add-edit">Created On</label>
-                <input asp-for="@Model.CreatedOn" class="form-control" type="date" aria-required="true" value="@(string.IsNullOrEmpty(Model.CreatedOn) ? today : Model.CreatedOn)" />
+                <input asp-for="@Model.CreatedOn" class="form-control" type="date" aria-required="true"
+                    value="@(string.IsNullOrEmpty(Model.CreatedOn.ToString()) ? today : Model.CreatedOn)" />
                 <span asp-validation-for="@Model.CreatedOn" class="text-danger"></span>
             </div>
 
@@ -53,4 +56,3 @@
         </form>
     </div>
 </div>
- *@

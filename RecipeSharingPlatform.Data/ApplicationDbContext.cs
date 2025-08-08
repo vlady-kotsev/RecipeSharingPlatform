@@ -18,20 +18,28 @@ namespace RecipeSharingPlatform.Data
         {
             base.OnModelCreating(builder);
 
-            
+
             builder.Entity<UserRecipe>()
                 .HasKey(ur => new { ur.UserId, ur.RecipeId });
 
-            
+
             builder.Entity<UserRecipe>()
                 .HasOne(ur => ur.User)
                 .WithMany()
-                .HasForeignKey(ur => ur.UserId);
+                .HasForeignKey(ur => ur.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<UserRecipe>()
                 .HasOne(ur => ur.Recipe)
                 .WithMany(r => r.UsersRecipes)
-                .HasForeignKey(ur => ur.RecipeId);
+                .HasForeignKey(ur => ur.RecipeId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            builder.Entity<Recipe>()
+                .HasOne(r => r.Author)
+                .WithMany()
+                .HasForeignKey(r => r.AuthorId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             var defaultUser = new IdentityUser
             {
@@ -45,7 +53,7 @@ namespace RecipeSharingPlatform.Data
                     new IdentityUser { UserName = "admin@recipesharing.com" },
                     "Admin123!")
             };
-            //builder.Entity<IdentityUser>().HasData(defaultUser);
+            builder.Entity<IdentityUser>().HasData(defaultUser);
 
             builder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Appetizer" },

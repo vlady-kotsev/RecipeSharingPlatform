@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Recipe Details";
 }
+@model RecipeSharingPlatform.ViewModels.RecipeViewModel;
 
 <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 20px;">
     <h2>@ViewData["Title"]</h2>
@@ -15,7 +16,8 @@
         }
         else
         {
-            <img src="~/images/default-image.jpg" class="img-fluid" style="max-width: 100%; height: auto;" alt="No Image Available" />
+            <img src="~/images/default-image.jpg" class="img-fluid" style="max-width: 100%; height: auto;"
+                alt="No Image Available" />
         }
     </div>
 
@@ -26,18 +28,22 @@
             <p class="card-text">@Model.Instructions</p>
             <hr />
             <p class="card-text"><small class="text-muted">Category: @Model.Category</small></p>
-            <p class="card-text"><small class="text-muted">Created On: @Model.CreatedOn.ToString("dd/MM/yyyy")</small></p>
+            <p class="card-text"><small class="text-muted">Created On: @Model.CreatedOn.ToString("dd/MM/yyyy")</small>
+            </p>
             <p class="card-text"><small class="text-muted">Author: @Model.Author</small></p>
             <hr />
         </div>
         <div class="card-footer text-center">
             <div class="d-flex justify-content-between align-items-center">
-                <button type="button" class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1" onclick="history.back()">
+                <button type="button"
+                    class="btn btn-warning d-flex justify-content-center align-items-center flex-fill mx-1"
+                    onclick="history.back()">
                     <i class="fas fa-arrow-left"></i> Back
                 </button>
                 @if (User?.Identity?.IsAuthenticated == true && !Model.IsAuthor && !Model.IsSaved)
                 {
-                    <form asp-controller="Recipe" asp-action="Save" method="post" class="d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <form asp-controller="Recipe" asp-action="Save" method="post"
+                        class="d-flex justify-content-center align-items-center flex-fill mx-1">
                         <input type="hidden" name="id" value="@Model.Id" />
                         <button type="submit" class="btn btn-success w-100">
                             <i class="fas fa-heart"></i> Add to Favorites
@@ -46,10 +52,12 @@
                 }
                 @if (Model.IsAuthor)
                 {
-                    <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <a asp-controller="Recipe" asp-action="Edit" asp-route-id="@Model.Id"
+                        class="btn btn-primary d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-edit"></i> Edit
                     </a>
-                    <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
+                    <a asp-controller="Recipe" asp-action="Delete" asp-route-id="@Model.Id"
+                        class="btn btn-danger d-flex justify-content-center align-items-center flex-fill mx-1">
                         <i class="fas fa-trash"></i> Delete
                     </a>
                 }
